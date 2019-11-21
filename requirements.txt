@@ -1,0 +1,16 @@
+asn1crypto==1.2.0
+beautifulsoup4==4.8.1
+certifi==2019.9.11
+cffi==1.13.1
+chardet==3.0.4
+cryptography==2.8
+idna==2.8
+pycparser==2.19
+pymssql==2.1.4
+pyOpenSSL==19.0.0
+PySocks==1.7.1
+requests==2.22.0
+six==1.12.0
+soupsieve==1.9.3
+urllib3==1.24.2
+
