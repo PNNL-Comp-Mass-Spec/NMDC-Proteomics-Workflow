@@ -1,0 +1,44 @@
+ 
+## Workflow for Metaproteomic Data  
+
+### Background    
+The NMDC initiative will enable users in the environmental microbiology community to easily search and access the microbiome (FICUS) data collected within three national laboratories (PNNL, LANL, and LBNL) using a new framework. Currently, the instrument data (e.g. LC-MS/MS analyses), and data analysis results are being managed via independent systems across labs. This framework will make the different datasets and workflows from each sub-area within environmental microbiology available under one canopy.
+
+### Positioning
+
+  The Integrative Omics group at PNNL currently has their own internal data repository (DMS) that contains metadata, results/data files, etc. related to each sample (single organism or group of meta-organisms) analyzed via mass spectrometry for peptide identification. For long term storage and future external accessibility, DMS data is pushed into the MyEMSL data repository. MyEMSL supports different initiatives across multiple divisions at PNNL to achieve and maintain their respective data and metadata sources.
+
+  Under AIM2, we are developing Meta-proteomics workflow( task 2.1.5: A2170, A2180 &, A2200). Code base is being developed in Python and will be wrapped in a container with all the necessary dependencies needed to run the workflow. Currently, The source data will be obtained from analysis tools such as
+
+- MS-GF+ (1) which performs peptide identification by scoring MS/MS spectra against peptides derived from a protein sequence database (FASTA files). 
+- MASIC (2) which tells you the abundance of that peptide. 
+
+Currently, this workflow assumes that the output analysis files from MS-GF+(TSV file) and MASIC(SICstats file) tools are available to start the workflow, but moving forward, running MS-GF+ and MASIC as a separate containers would also be provided to the user along with the workflow. 
+
+In detail progress about the Meta-proteomics workflow could be find here:
+
+[01-20-2020 Presentation](https://drive.google.com/file/d/1qe_PRP2LgwaGuXCBQI2OrOgDIaXt3ZjP/view?usp=sharing) 
+
+### Environment
+
+      Linux (bash)
+    Python >= 3.6 (via conda)
+     Pandas
+    pytest
+    … 
+    ##### #TODO More packages/libraries in the requirement.txt file of the project.
+ 
+### Third party software used/other dependencies:
+
+     (1)    MS-GF+: Universal Database Search Tool for Mass Spectrometry.
+                   Sangtae Kim, Pavel A. Pevzner, Nat Commun. 2014 Oct 31;5:5277. doi: 10.1038/ncomms6277.   
+    (2)    MASIC+: (MS/MS Automated Selected Ion Chromatogram generator) a software program for fast quantitation and flexible visualization of chromatographic profiles from detected LC-MS(/MS) features.             
+                   Matthew E. Monroe and Shaw, Jason L and Daly, Don S and Adkins, Joshua N and Smith, Richard D   ### Database: DMS- Data management system(temporary purpose.!)
+ 
+### Tests
+- Integration Tests to ensure individual piece of the pipeline is working as expected.
+    - For Dataset:
+        - Mint Soil
+        - Hess Proposal
+        - FUTURE: Will coordinate with @Patrick chain to test this workflow on NERSC and their datasets. 
+- Unit Tests for internal purpose only.
