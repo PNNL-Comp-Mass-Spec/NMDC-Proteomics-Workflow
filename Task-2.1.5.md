@@ -20,25 +20,41 @@ In detail progress about the Meta-proteomics workflow could be find here:
 [01-20-2020 Presentation](https://drive.google.com/file/d/1qe_PRP2LgwaGuXCBQI2OrOgDIaXt3ZjP/view?usp=sharing) 
 
 ### Environment
+    System Version: macOS 10.14.6 (18G2022)
+    Kernel Version: Darwin 18.7.0
+    Unix shell: Z shell (-zsh)
+    
+    Docker version 19.03.4
+    
+    # Name                    Version 
+    python                    3.7.3
+    cython                    0.29.14DOCKER_HOST                     
+    matplotlib                3.1.2                      
+    modin                     0.7.0                    
+    numpy                     1.18.1                   
+    pandas                    0.25.3                   
+    pymssql                   2.1.4                    
+    requests                  2.22.0           
+    scipy                     1.3.1             
+    seaborn                   0.10.0                    
+    setuptools                41.6.0                    
 
-      Linux (bash)
-    Python >= 3.6 (via conda)
-     Pandas
-    pytest
-    … 
-    ##### #TODO More packages/libraries in the requirement.txt file of the project.
- 
 ### Third party software used/other dependencies:
 
      (1)    MS-GF+: Universal Database Search Tool for Mass Spectrometry.
                    Sangtae Kim, Pavel A. Pevzner, Nat Commun. 2014 Oct 31;5:5277. doi: 10.1038/ncomms6277.   
+                   
+                   This software is Copyright © 2012, 2013 The Regents of the University of California. All Rights Reserved.
+                   Permission to copy, modify, and distribute this software and its documentation for educational, research and non-profit purposes, without fee, and without a written agreement is hereby granted, provided that the above copyright notice, this paragraph and the following three paragraphs appear in all copies.
+ 
     (2)    MASIC+: (MS/MS Automated Selected Ion Chromatogram generator) a software program for fast quantitation and flexible visualization of chromatographic profiles from detected LC-MS(/MS) features.             
                    Matthew E. Monroe and Shaw, Jason L and Daly, Don S and Adkins, Joshua N and Smith, Richard D   ### Database: DMS- Data management system(temporary purpose.!)
- 
+ 
+                   Licensed under the 2-Clause BSD License; you may not use this file except in compliance with the License. You may obtain a copy of the License at https://opensource.org/licenses/BSD-2-Clause
 ### Tests
 - Integration Tests to ensure individual piece of the pipeline is working as expected.
-    - For Dataset:
-        - Mint Soil
+    - Testing for the following meta-proteomics dataset:
+        - MinT soil analysis: "Mint Data" where we have 4 FASTA (one of which is huge and a few smaller ones that only contain replicating microbes). 
         - Hess Proposal
-        - FUTURE: Will coordinate with @Patrick chain to test this workflow on NERSC and their datasets. 
+        - in Future: Will coordinate with @Patrick chain to test this workflow on NERSC and their datasets. 
 - Unit Tests for internal purpose only.
