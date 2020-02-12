@@ -6,4 +6,3 @@ class Config:
     db_password = environ.get('DATABASE_PASSWORD')
     db_server = environ.get('DATABASE_SERVER')
     db_name = environ.get('DATABASE_NAME')
-
