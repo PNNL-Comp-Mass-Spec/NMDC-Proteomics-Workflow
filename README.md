@@ -68,6 +68,8 @@ This pipeline purpose if to automate the process of merging results from MSGF+ a
             verify whether env variables have been set or not!(List all the variable currently set in your env)
             
             ``` $ printenv```
+        - Install workflow as a package:
+           ```pip install -e .```
         - Run the workflow
         
             ```chmod 777 ./StartMetaProteomicsWorkflow.sh```
