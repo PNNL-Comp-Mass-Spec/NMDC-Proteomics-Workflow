@@ -45,6 +45,12 @@ This pipeline purpose if to automate the process of merging results from MSGF+ a
  #### Manual setup
    - [Download and install "Conda"](https://docs.conda.io/en/latest/miniconda.html): package manager and environment management system.
    - In terminal:
+        - Download codebase from stash
+        
+            ```git clone https://stash.pnnl.gov/scm/omcs/nmdc-proteomics-workflow.git```
+            
+            ```cd nmdc-proteomics-workflow```
+
         - Create seperate environment to run the workflow.
         
              ```conda create --name <my_proteomics_env> --file requirements.txt```   
@@ -52,11 +58,6 @@ This pipeline purpose if to automate the process of merging results from MSGF+ a
              ```conda activate my_proteomics_env```
              
              [refer this]((https://docs.conda.io/projects/conda/en/4.6.0/_downloads/52a95608c49671267e40c689e0bc00ca/conda-cheatsheet.pdf)) for OS specific commands
-        - Download codebase from stash
-        
-            ```git clone https://stash.pnnl.gov/scm/omcs/nmdc-proteomics-workflow.git```
-            
-            ```cd nmdc-proteomics-workflow```
         - Set the temporary environment variables(Instruction for bash shell)
         
             ```

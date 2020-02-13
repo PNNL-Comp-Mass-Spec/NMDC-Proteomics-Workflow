@@ -15,6 +15,6 @@ USER appuser
 COPY . /opt/app
 
 # run it!
-CMD [ "python", "./src/proteomics_workflow.py" ]
+CMD [ "python", "src/MetProWorkflowApp.py" ]
 
 

@@ -57,7 +57,7 @@ class QueryBuilder():
         self.analysis_jobs= second
 
         #-- TODO: Remove it @Reviewer's Testing purpose
-        directory= '../data/dpkgs/{}/'.format(id)
+        directory= 'data/dpkgs/{}/'.format(id)
         if not os.path.exists(directory):
             os.makedirs(directory)
         second.to_excel(directory+"start_file_{}.xlsx".format(id, id))
@@ -94,7 +94,7 @@ class QueryBuilder():
 
         self.analysis_jobs= second
         #-- TODO: Remove it @Reviewer's Testing purpose
-        directory= '../data/set_of_Dataset_IDs/'
+        directory= 'data/set_of_Dataset_IDs/'
         if not os.path.exists(directory):
             os.makedirs(directory)
         second.to_excel(directory+"start_file.xlsx")
@@ -132,7 +132,7 @@ class QueryBuilder():
         self.analysis_jobs= second
 
         #-- TODO: Remove it @Reviewer's Testing purpose
-        directory= '../data/set_of_Jobs/'
+        directory= 'data/set_of_Jobs/'
         if not os.path.exists(directory):
             os.makedirs(directory)
 
