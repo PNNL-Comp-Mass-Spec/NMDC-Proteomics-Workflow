@@ -1,0 +1,42 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+db.sqlite3
+migrations/
+media/
+settings.py
+
+# C extensions
+*.so
+
+# Avoiding Mac OS X .DS_Store files
+.DS_Store
+data/.DS_Store
+results/.DS_Store
+src/access_methods/.DS_Store
+src/access_methods/direct_access/.DS_Store
+utility/.DS_Store
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+
+data/
+results/
+.ipynb_checkpoints
+
+
