@@ -37,22 +37,15 @@ class Query:
                         FROM V_Analysis_Job_Detail_Report_2
                         WHERE JobNum IN ({})"""
 
-    #--------------------------------------------------------
-    # Type B Given a list of dataset_IDs, determine MSGF
-    # DATASET = """   SELECT Dataset_ID, Job, [Results Folder Path]
-    #                 FROM V_Analysis_Job_List_Report_2
-    #                 WHERE Job IN ( SELECT Max(Job)
-    #                                FROM V_Analysis_Job_List_Report_2
-    #                                WHERE [Tool] LIKE 'msgf%' AND
-    #                                            Dataset_ID IN ({})
-    #                                GROUP BY dataset_id )"""
-    DATASET = """       SELECT Dataset_ID, Job, [Data Folder Link]
-                        FROM V_Analysis_Job_Detail_Report_2 
-                        WHERE [JobNum] IN (SELECT Job
-                                           FROM V_Data_Package_Analysis_Jobs_List_Report 
-                                           WHERE [ID] = 508538 and 
-                                          [Tool] LIKE 'msgf%')"""
-
+    #--------------------------------------------------------Type B
+    # Given a list of dataset_IDs, determine MSGFplusjobs
+    DATASET = """   SELECT Dataset_ID, Job, [Results Folder Path]
+                    FROM V_Analysis_Job_List_Report_2
+                    WHERE Job IN ( SELECT Max(Job)
+                                   FROM V_Analysis_Job_List_Report_2
+                                   WHERE [Tool] LIKE 'msgf%' AND
+                                               Dataset_ID IN ({})
+                                   GROUP BY dataset_id )"""
     # Could use this query to get the MSGF Jobs--> Using MSGF Jobs, find the "Data Folder link" {in view: V_Analysis_Job_Detail_Report_2 as above over JobNum!}
     """ 
     SELECT Dataset_ID, Max(Job) as Job, 
@@ -61,7 +54,8 @@ class Query:
           And Tool Like 'msgf%'
     Group by Dataset_ID  
     """
-    #-------------------------------------------------------- Type C Given a list of MSGF+ jobs, determine the dataset_IDs
+    #-------------------------------------------------------- Type C
+    # Given a list of MSGFplus jobs, determine the dataset_IDs
     MSGF = """SELECT Job,[Results Folder Path], Dataset_ID
                 FROM V_Analysis_Job_List_Report_2
                 WHERE Job IN ({})"""

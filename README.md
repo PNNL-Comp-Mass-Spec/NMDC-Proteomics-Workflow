@@ -109,8 +109,7 @@ This pipeline purpose if to automate the process of merging results from MSGF+ a
                  1. Merge "*_msgfplus_syn.txt" files based on scan_id.
                  2. keep the best scoring peptide(minimum MSGFDB_SpecEValue candidate) for each scan.
                  3. Generate `Consolidate_syn`( big peptide file). 
-                 4. Since Qvalues aren't consistent in `Consolidate_syn`, so we've to 
-                    Recompute the QValue.(**controlling FDR** with target/decoy).
+                 4. Run, [improving the "False Discovery Rate" algorithm on `Consolidate_syn`.](###Algorithm-to-Recompute-the-qvalues)
                  5. Obtain protein information from below files & merge it with `Consolidate_syn_file`.
                    `*_msgfplus_syn_SeqToProteinMap.txt`(protein file) and 
                    `*_msgfplus_syn_ResultToSeqMap.txt` {mapper file}
@@ -134,5 +133,27 @@ This pipeline purpose if to automate the process of merging results from MSGF+ a
 
 
 ## Additional Information:
-    **Algorithm to Re-compute the qvalues**
-    
+
+### **Algorithm to Recompute the qvalues**
+     In some datasets MSGFplus tool dealing with SPLIT FASTAs due to which the `QValue` and `PepQValue` value aren't
+     based on the entire FASTA file for that dataset. Therefore, we're recomputing these 2 columns after we get 
+     `Consolidate_syn` (by merging all the MSGFplusjobs ran on multiple FASTAs)
+
+### Necessary information of files generated during workflow execution:
+
+- Start_file:
+
+| Dataset_ID | MSGFPlusJob | Data Folder Link | NewestMasicJob | Results Folder Path |
+|------------|-------------|------------------|----------------|---------------------|
+
+- job_info_query:
+
+| Job | Dataset | Experiment | OrganismDBName | ProteinCollectionList | ParameterFileName |
+|-----|---------|------------|----------------|-----------------------|-------------------|
+
+- _syn
+
+| ResultID | Scan | FragMethod | SpecIndex | Charge | PrecursorMZ | DelM | DelM_PPM | MH | Peptide | Protein | NTT | DeNovoScore | MSGFScore | MSGFDB_SpecEValue | Rank_MSGFDB_SpecEValue | EValue | QValue | PepQValue | IsotopeError |
+|:--------:|------|------------|-----------|--------|-------------|------|----------|----|---------|---------|-----|-------------|-----------|-------------------|------------------------|--------|--------|-----------|--------------|
+
+- fasdf
