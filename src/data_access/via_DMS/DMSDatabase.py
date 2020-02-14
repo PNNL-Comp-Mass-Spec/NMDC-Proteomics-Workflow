@@ -1,3 +1,4 @@
+
 import pymssql
 import logging
 import sys
@@ -40,6 +41,7 @@ class DMSDatabase:
 
         except pymssql.MySQLError as e:
             print(e)
+        # FIXME: Close connection and test again!
         # finally:
         #     if self.conn:
         #         self.conn.close()

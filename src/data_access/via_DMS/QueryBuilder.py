@@ -1,10 +1,10 @@
-from src.access_methods.direct_access.DMSDatabase import DMSDatabase
-from src.access_methods.direct_access.secure import Config
-from src.access_methods.direct_access.Query import Query
+from src.data_access.via_DMS.DMSDatabase import DMSDatabase
+from src.data_access.via_DMS.secure import Config
+from src.data_access.via_DMS.Query import Query
 
 import pandas as pd
 import os
-
+import sys
 class QueryBuilder():
     ''' 1. Build MS-SQl Queries.
         2. Execute them
@@ -55,6 +55,7 @@ class QueryBuilder():
         first = df.merge(df_dataset_newest_MASIC, how='left', on= ['Dataset_ID', 'Dataset_ID'])
         second = first.merge(df_MASIC_loc, how="left", on= ['NewestMasicJob', 'NewestMasicJob'])
         self.analysis_jobs= second
+        print('analysis_jobs obj size:',sys.getsizeof(self.analysis_jobs))
 
         #-- TODO: Remove it @Reviewer's Testing purpose
         directory= 'data/dpkgs/{}/'.format(id)
@@ -93,6 +94,8 @@ class QueryBuilder():
         second = first.merge(df_MASIC_loc, how="left", on=['NewestMasicJob', 'NewestMasicJob'])
 
         self.analysis_jobs= second
+        print('analysis_jobs obj size:',sys.getsizeof(self.analysis_jobs))
+
         #-- TODO: Remove it @Reviewer's Testing purpose
         directory= 'data/set_of_Dataset_IDs/'
         if not os.path.exists(directory):
@@ -130,6 +133,7 @@ class QueryBuilder():
         first = msgf_loc_dataset.merge(df_dataset_newest_MASIC, how='left', on=['Dataset_ID', 'Dataset_ID'])
         second = first.merge(df_MASIC_loc, how="left", on= ['NewestMasicJob', 'NewestMasicJob'])
         self.analysis_jobs= second
+        print('analysis_jobs obj size:',sys.getsizeof(self.analysis_jobs))
 
         #-- TODO: Remove it @Reviewer's Testing purpose
         directory= 'data/set_of_Jobs/'

@@ -108,9 +108,10 @@ This pipeline purpose if to automate the process of merging results from MSGF+ a
             - Combine multiple [MSGFplusJob results](https://prismwiki.pnl.gov/wiki/MSGF%2B_Results_Files):
                  1. Merge "*_msgfplus_syn.txt" files based on scan_id.
                  2. keep the best scoring peptide(minimum MSGFDB_SpecEValue candidate) for each scan.
-                 3. Generate `Consolidate_syn`( big peptide file). 
-                 4. Run, [improving the "False Discovery Rate" algorithm on `Consolidate_syn`.](###Algorithm-to-Recompute-the-qvalues)
-                 5. Obtain protein information from below files & merge it with `Consolidate_syn_file`.
+                 3. Generate `consolidate_syn`( big peptide file). 
+                 4. Generate,`recomupted_consolidate_syn` 
+                   [improving the "False Discovery Rate" algorithm on `Consolidate_syn`.](###Algorithm-to-Recompute-the-qvalues)
+                 5. Obtain protein information from below files & merge it with `recomupted_consolidate_syn`.
                    `*_msgfplus_syn_SeqToProteinMap.txt`(protein file) and 
                    `*_msgfplus_syn_ResultToSeqMap.txt` {mapper file}
                  6. Generate `MSGFjobs_Merged`.
@@ -141,19 +142,47 @@ This pipeline purpose if to automate the process of merging results from MSGF+ a
 
 ### Necessary information of files generated during workflow execution:
 
-- Start_file:
+```
+├── data                          
+│   ├── dpkgs/             
+│   ├── set_of_Dataset_IDs/
+│   └── set_of_Jobs/ 
+```
+   1. `start_file.xlsx`
+    
+   | Dataset_ID | MSGFPlusJob | Data Folder Link | NewestMasicJob | Results Folder Path |
+   |------------|-------------|------------------|----------------|---------------------|
+    
+   2. `job_info_query.xlsx`
+    
+   | Job | Dataset | Experiment | OrganismDBName | ProteinCollectionList | ParameterFileName |
+   |-----|---------|------------|----------------|-----------------------|-------------------|
 
-| Dataset_ID | MSGFPlusJob | Data Folder Link | NewestMasicJob | Results Folder Path |
-|------------|-------------|------------------|----------------|---------------------|
+```
+├── results                          
+│   ├── dpkgs/Dataset_ID/                  
+│   ├── set_of_Dataset_IDs/Dataset_ID/
+│   └── set_of_Jobs/Dataset_ID/
+```
+   1. `*_consolidate_syn.txt`
+   
+   | ResultID | Scan | FragMethod | SpecIndex | Charge | PrecursorMZ | DelM | DelM_PPM | MH | Peptide | Protein | NTT | DeNovoScore | MSGFScore | MSGFDB_SpecEValue | Rank_MSGFDB_SpecEValue | EValue | QValue | PepQValue | IsotopeError |
+   |:--------:|------|------------|-----------|--------|-------------|------|----------|----|---------|---------|-----|-------------|-----------|-------------------|------------------------|--------|--------|-----------|--------------|
 
-- job_info_query:
+   2. `*_recomupted_consolidate_syn.txt`
+   
+   3. `*_MSGFjobs_Merged.txt`
+      
+   4. `*_MSGFjobs_MASIC_resultant.txt`
 
-| Job | Dataset | Experiment | OrganismDBName | ProteinCollectionList | ParameterFileName |
-|-----|---------|------------|----------------|-----------------------|-------------------|
-
-- _syn
-
-| ResultID | Scan | FragMethod | SpecIndex | Charge | PrecursorMZ | DelM | DelM_PPM | MH | Peptide | Protein | NTT | DeNovoScore | MSGFScore | MSGFDB_SpecEValue | Rank_MSGFDB_SpecEValue | EValue | QValue | PepQValue | IsotopeError |
-|:--------:|------|------------|-----------|--------|-------------|------|----------|----|---------|---------|-----|-------------|-----------|-------------------|------------------------|--------|--------|-----------|--------------|
-
-- fasdf
+```
+├── results                          
+│   ├── dpkgs/                     
+│   ├── set_of_Dataset_IDs/
+│   └── set_of_Jobs/
+``` 
+   - `*_crossTab.txt`
+   
+   - genrated histogram
+   
+   - automated report of the analysis

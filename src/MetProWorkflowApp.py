@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 '''Automate the proteomics workflow'''
 
-from src.access_methods.direct_access.Input import Input
-from src.access_methods.direct_access.QueryBuilder import QueryBuilder
+from src.data_access.via_DMS.Input import Input
+from src.data_access.via_DMS.QueryBuilder import QueryBuilder
 
 class MetProWorkflowApp:
     def __init__(self):
