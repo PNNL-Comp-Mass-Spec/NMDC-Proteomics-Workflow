@@ -20,8 +20,8 @@ class Query:
                                          Tool LIKE 'masic%' ) B
                                    ON A.Dataset_ID = B.Dataset_ID
                             """
-    # Get the Data Folders for the MSGF+ Jobs (and also the MASIC jobs, if included in tthe data package)
-    MSGF_loc = """SELECT JobNum, [Data Folder Link]
+    # Get the Data Folders for the MSGF+ Jobs (and also the MASIC jobs, if included in the data package)
+    MSGF_loc = """SELECT JobNum As MSGFPlusJob, [Data Folder Link] As MSGFplus_loc
                 FROM V_Analysis_Job_Detail_Report_2
                 WHERE JobNum IN ({})"""
 
@@ -33,13 +33,13 @@ class Query:
                         Group by Dataset_ID"""
 
     # Get the Data Folders for the MSGF+ Jobs (and also the MASIC jobs, if included in tthe data package)
-    MASIC_loc = """SELECT JobNum AS NewestMasicJob , [Results Folder Path]
+    MASIC_loc = """SELECT JobNum AS NewestMasicJob , [Results Folder Path] As MASIC_loc
                         FROM V_Analysis_Job_Detail_Report_2
                         WHERE JobNum IN ({})"""
 
     #--------------------------------------------------------Type B
     # Given a list of dataset_IDs, determine MSGFplusjobs
-    DATASET = """   SELECT Dataset_ID, Job, [Results Folder Path]
+    DATASET = """   SELECT Dataset_ID, Job As MSGFPlusJob, [Results Folder Path] As MSGFplus_loc
                     FROM V_Analysis_Job_List_Report_2
                     WHERE Job IN ( SELECT Max(Job)
                                    FROM V_Analysis_Job_List_Report_2
@@ -48,7 +48,7 @@ class Query:
                                    GROUP BY dataset_id )"""
     # Could use this query to get the MSGF Jobs--> Using MSGF Jobs, find the "Data Folder link" {in view: V_Analysis_Job_Detail_Report_2 as above over JobNum!}
     """ 
-    SELECT Dataset_ID, Max(Job) as Job, 
+    SELECT Dataset_ID, Max(Job) As MSGFPlusJob, 
     FROM V_Analysis_Job_List_Report_2
     WHERE Dataset_ID In ({})
           And Tool Like 'msgf%'
@@ -56,7 +56,7 @@ class Query:
     """
     #-------------------------------------------------------- Type C
     # Given a list of MSGFplus jobs, determine the dataset_IDs
-    MSGF = """SELECT Job,[Results Folder Path], Dataset_ID
+    MSGF = """SELECT Dataset_ID, Job As MSGFPlusJob,[Results Folder Path] As MSGFplus_loc 
                 FROM V_Analysis_Job_List_Report_2
                 WHERE Job IN ({})"""
 

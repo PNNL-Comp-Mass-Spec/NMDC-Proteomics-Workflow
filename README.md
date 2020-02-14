@@ -150,8 +150,8 @@ This pipeline purpose if to automate the process of merging results from MSGF+ a
 ```
    1. `start_file.xlsx`
     
-   | Dataset_ID | MSGFPlusJob | Data Folder Link | NewestMasicJob | Results Folder Path |
-   |------------|-------------|------------------|----------------|---------------------|
+    | Dataset_ID | MSGFPlusJob | MSGFplus_loc | NewestMasicJob | MASIC_loc |
+    |------------|-------------|--------------|----------------|-----------|
     
    2. `job_info_query.xlsx`
     

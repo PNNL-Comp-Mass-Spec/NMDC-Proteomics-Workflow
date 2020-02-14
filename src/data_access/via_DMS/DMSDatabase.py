@@ -12,7 +12,6 @@ class DMSDatabase:
         self.DATABASE_NAME = config.db_name
         self.conn = None
 
-
     def open_connection(self):
         '''
         Connection to DMS MS sqlserver i.e DMS5 or DMS_Data_Package

@@ -3,6 +3,7 @@
 
 from src.data_access.via_DMS.Input import Input
 from src.data_access.via_DMS.QueryBuilder import QueryBuilder
+from src.processing.FileOperations import FileOperations
 
 class MetProWorkflowApp:
     def __init__(self):
@@ -18,9 +19,11 @@ class MetProWorkflowApp:
         myQuery= QueryBuilder(user_obj)
         myQuery.execute()
         all_info, job_info=myQuery.analysis_jobs, myQuery.job_info
-        print(all_info.shape, all_info.columns.values,'\n' ,job_info.shape, job_info.columns.values)
+        # print(all_info.shape, all_info.columns.values,'\n' ,job_info.shape, job_info.columns.values)
 
         # Start merge Process
+        file_obj= FileOperations(all_info)
+        file_obj.get_files()
 
         # print(crossTab.shape, all_info.columns.values)
 

@@ -12,7 +12,6 @@ class QueryBuilder():
             Dataset_ID  | MSGFPlusJob  | Data Folder Link  | NewestMasicJob  |	Results Folder Path |
     '''
     def __init__(self, user_input= None):
-        # configure db connection
         self.db= DMSDatabase(Config)
         self.user_input = user_input
         self.analysis_jobs = None
@@ -36,7 +35,7 @@ class QueryBuilder():
 
         query = Query.MSGF_loc.format(','.join(str(job) for job in MSGFPlusJobs.to_list()))
         result_set = self.db.run_query(query).fetchall()
-        MSGFPlusJob_loc= pd.DataFrame(result_set)["Data Folder Link"]
+        MSGFPlusJob_loc= pd.DataFrame(result_set)["MSGFplus_loc"]
 
         query = Query.DATASET_MASIC.format(','.join(str(job) for job in Dataset_ID.to_list()))
         result_set = self.db.run_query(query).fetchall()
@@ -78,7 +77,7 @@ class QueryBuilder():
         query = Query.DATASET.format(','.join(str(job) for job in id_list))
         result_set = self.db.run_query(query).fetchall()
         df= pd.DataFrame(result_set)
-        MSGFPlusJobs = pd.DataFrame(result_set)['Job']
+        MSGFPlusJobs = pd.DataFrame(result_set)['MSGFPlusJob']
 
         query = Query.DATASET_MASIC.format(','.join(str(job) for job in id_list))
         result_set = self.db.run_query(query).fetchall()
@@ -117,7 +116,7 @@ class QueryBuilder():
         query = Query.MSGF.format(','.join(str(job) for job in id_list))
         result_set = self.db.run_query(query).fetchall()
         msgf_loc_dataset= pd.DataFrame(result_set)
-        MSGFPlusJobs= pd.DataFrame(result_set)['Job']
+        MSGFPlusJobs= pd.DataFrame(result_set)['MSGFPlusJob']
         Dataset_ID = pd.DataFrame(result_set)['Dataset_ID']
 
         query = Query.DATASET_MASIC.format(','.join(str(job) for job in Dataset_ID.to_list()))

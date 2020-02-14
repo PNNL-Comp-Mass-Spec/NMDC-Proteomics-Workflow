@@ -13,8 +13,8 @@ class Input:
         while True:
             print("To run the Meta-protemoics data-analysis workflow \n" \
                   "Three options are available:\n" \
-                  "1. enter a datapackage ID Eg. 3051\n" \
-                  "2. enter a set of dataset-IDs Eg.[] \n" \
+                  "1. enter a datapackage ID\n" \
+                  "2. enter a set of dataset-IDs\n" \
                   "3. enter a set of JobNums\n\n" )
 
             option = int(input("Which option would you like to proceed?\n"))
