@@ -16,6 +16,7 @@ class QueryBuilder():
         self.user_input = user_input
         self.analysis_jobs = None
         self.job_info= None
+        self.parent_data_folder = None
 
     def start_with_datapackage_id(self, id):
         '''
@@ -57,12 +58,12 @@ class QueryBuilder():
         print('analysis_jobs obj size:',sys.getsizeof(self.analysis_jobs))
 
         #-- TODO: Remove it @Reviewer's Testing purpose
-        directory= 'data/dpkgs/{}/'.format(id)
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-        second.to_excel(directory+"start_file_{}.xlsx".format(id, id))
+        self.parent_data_folder= 'data/dpkgs/{}/'.format(id)
+        if not os.path.exists(self.parent_data_folder):
+            os.makedirs(self.parent_data_folder)
+        second.to_excel(self.parent_data_folder+"start_file_{}.xlsx".format(id, id))
         #--
-        self.create_job_info_query(MSGFPlusJobs.to_list(), directory)
+        self.create_job_info_query(MSGFPlusJobs.to_list(), self.parent_data_folder)
 
     def start_with_dataset_ids(self, id_list):
         '''
@@ -96,12 +97,12 @@ class QueryBuilder():
         print('analysis_jobs obj size:',sys.getsizeof(self.analysis_jobs))
 
         #-- TODO: Remove it @Reviewer's Testing purpose
-        directory= 'data/set_of_Dataset_IDs/'
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-        second.to_excel(directory+"start_file.xlsx")
+        self.parent_data_folder= 'data/set_of_Dataset_IDs/'
+        if not os.path.exists(self.parent_data_folder):
+            os.makedirs(self.parent_data_folder)
+        second.to_excel(self.parent_data_folder+"start_file.xlsx")
         #--
-        self.create_job_info_query(MSGFPlusJobs.to_list(), directory)
+        self.create_job_info_query(MSGFPlusJobs.to_list(), self.parent_data_folder)
 
     def start_with_job_nums(self, id_list):
         '''
@@ -135,13 +136,13 @@ class QueryBuilder():
         print('analysis_jobs obj size:',sys.getsizeof(self.analysis_jobs))
 
         #-- TODO: Remove it @Reviewer's Testing purpose
-        directory= 'data/set_of_Jobs/'
-        if not os.path.exists(directory):
-            os.makedirs(directory)
+        self.parent_data_folder= 'data/set_of_Jobs/'
+        if not os.path.exists(self.parent_data_folder):
+            os.makedirs(self.parent_data_folder)
 
-        second.to_excel(directory+"start_file.xlsx")
+        second.to_excel(self.parent_data_folder+"start_file.xlsx")
         #--
-        self.create_job_info_query(MSGFPlusJobs.to_list(), directory)
+        self.create_job_info_query(MSGFPlusJobs.to_list(), self.parent_data_folder)
 
     def execute(self):
         '''Design queries here & set it'''
