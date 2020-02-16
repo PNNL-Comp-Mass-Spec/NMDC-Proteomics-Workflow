@@ -5,40 +5,36 @@ This pipeline purpose if to automate the process of merging results from MSGF+ a
 ### Description of the  structure.
 ```shell script
 .
-├── src                             # Contains the pipeline code.
-│   ├── MetProWorkflowApp.py        # Run the Meta-proteomics workflow
-│   ├── access_methods
-│   │   └── direct_access
-│   │       ├── DMSDatabase.py      # MSSQL database functions.
-│   │       ├── Input.py            # UserInut defined
-│   │       ├── Query.py            # Configuration file: set of SQL Queries.
-│   │       ├── QueryBuilder.py     # Configure appropriate SQL queries and executes them.
-│   │       └── secure.py           # Configuration file: MSSQL database credentials
+├── src                                
+│   ├── MetProWorkflowApp.py           # Run the Meta-proteomics workflow
+│   ├── data_access                    
+│   │   ├── general                    
+│   │   └── via_DMS                                        
+│   │       ├── DMSDatabase.py         # MSSQL database functions.
+│   │       ├── Input.py               # UserInut defined
+│   │       ├── Query.py               # Configuration file: set of SQL Queries.
+│   │       ├── QueryBuilder.py        # Configure appropriate SQL queries and executes them.
+│   │       └── secure.py              # Configuration file: MSSQL database credentials
 │   └── processing
-│       ├── FileOperations.py
-│       ├── Merge.py
-├── data                            # Files Dumped & Used while running workflow
-│   ├── dpkgs                       # Data for UserInput_1: data data package
-│   │   ├── 3458                    
-│   │   │   ├── job_query_info.xlsx 
-│   │   │   └── start_file_3458.xlsx# 
-│   ├── set_of_Dataset_IDs          # Data for UserInput_2: list of dataset_IDs
-│   │   ├── job_query_info.xlsx
-│   │   └── start_file.xlsx
-│   └── set_of_Jobs                 # Data for UserInput_3: list of MSGF_Jobs
-│       ├── job_query_info.xlsx
-│       └── start_file.xlsx
-├── results
-├── tests                           # unit test cases 
-├── docker                          # Dockerfile to run the complete project as standalone application in a container
-│   └── Dockerfile
+│       ├── DatasetsMerger.py          #
+│       ├── FileOperations.py          #
+│       ├── MASICmerger.py             #
+│       ├── MSGFplusMerger.py          #
+├── data                               # Files Dumped & Used while running workflow
+│   ├── dpkgs                          # Data for UserInput_1: data data package
+│   ├── set_of_Dataset_IDs             # Data for UserInput_2: list of dataset_IDs
+│   └── set_of_Jobs                    # Data for UserInput_3: list of MSGF_Jobs
+├── results                            
+├── tests                              # unit test cases 
+├── docker                             # Dockerfile to run the complete project as standalone application in a container
+│   └── Dockerfile                     # 
 └── utility
     └── utils.py
 ├── subscriptionService
-├── README.md                       # Overview of the proteomics workflow.
-├── Task-2.1.5.md                  
-├── requirements.txt
-├── setup.py
+├── README.md                          # Overview of the proteomics workflow.
+├── Task-2.1.5.md                      # 
+├── requirements.txt                   # 
+├── setup.py                           # 
 ````
 
 ## Installation:

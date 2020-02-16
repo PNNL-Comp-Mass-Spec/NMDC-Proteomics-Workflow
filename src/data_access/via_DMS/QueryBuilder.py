@@ -146,8 +146,10 @@ class QueryBuilder():
 
     def execute(self):
         '''Design queries here & set it'''
+        print(self.user_input.datapackage_id, self.user_input.dataset_ids, self.user_input.job_nums)
         try:
             # TODO: Remove query redundancy!
+
             if self.user_input.datapackage_id:
                 # find me all the jobs for each dataset in this datapackage!
                 self.start_with_datapackage_id(self.user_input.datapackage_id)

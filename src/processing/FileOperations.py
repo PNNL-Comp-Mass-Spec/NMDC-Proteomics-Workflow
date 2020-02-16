@@ -34,7 +34,7 @@ class FileOperations:
         :return:
         '''
         try:
-            os.system('wget %s' % url)
+            os.system('wget %s -q --show-progress' % url)
             logging.info("Files transferred successfully!")
         except Exception as e:
             logging.info("FAILED to transfer files!")
