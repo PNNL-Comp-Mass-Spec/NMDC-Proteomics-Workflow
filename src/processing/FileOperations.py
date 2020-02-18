@@ -4,7 +4,6 @@ import requests
 import logging
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
-
 from utility.utils import timeit
 
 class FileOperations:
@@ -114,3 +113,7 @@ class FileOperations:
         url= https://dms2.pnl.gov/data/ax/tsv/aux_info_categories/aux_info_def/501
         :return:
         '''
+    def handle_workflow_failure(self):
+        # TODO:  NMDC-10, add logic to check which files were downloaded before pipeline failure. It should only download the ones which weren't successful and start from there.
+        #        Using MD5 checksum.
+        pass

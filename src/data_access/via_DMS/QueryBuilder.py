@@ -17,7 +17,8 @@ class QueryBuilder():
         self.analysis_jobs = None
         self.job_info= None
         self.parent_data_folder = None
-
+        # TODO: NMDC: 18 Create a Summary_Stats.txt to distinguish between proteomics & Meta-proteomics study!
+        self.Summary_Stats= None
     def start_with_datapackage_id(self, id):
         '''
         Given a ID
@@ -146,10 +147,8 @@ class QueryBuilder():
 
     def execute(self):
         '''Design queries here & set it'''
-        print(self.user_input.datapackage_id, self.user_input.dataset_ids, self.user_input.job_nums)
         try:
             # TODO: Remove query redundancy!
-
             if self.user_input.datapackage_id:
                 # find me all the jobs for each dataset in this datapackage!
                 self.start_with_datapackage_id(self.user_input.datapackage_id)

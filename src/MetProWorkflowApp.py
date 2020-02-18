@@ -1,9 +1,9 @@
 from src.data_access.via_DMS.Input import Input
 from src.data_access.via_DMS.QueryBuilder import QueryBuilder
 from src.processing.FileOperations import FileOperations
-from src.processing.MSGFplusMerger import MSGFplusMerger
+from src.processing.DatasetsMerger import DatasetsMerger
+from src.analysis.downStreamAnalysis import downStreamAnalysis
 
-import argparse
 from argparse import RawTextHelpFormatter, ArgumentParser
 
 class MetProWorkflowApp:
@@ -34,13 +34,17 @@ class MetProWorkflowApp:
         file_obj.get_files()
 
         # Start merge Process
-        # merge = MSGFplusMerger()
-        # merge.consolidate_syn_files()
+        # parent_data_folder='data/dpkgs/3458/'
+        merge = DatasetsMerger(parent_data_folder)
+        merge.merge_all_jobs_in_UserInput()
+        # merge.create_crossTab()
         # print(crossTab.shape, all_info.columns.values)
 
         # Generate Metrics and Visualisation
-        # Metric = downStreamAnalysis()
 
+        # metric = downStreamAnalysis(merge.crossTab)
+        # metric.filterdata()
+        # metric.
 
 if __name__ == '__main__':
 
@@ -64,6 +68,5 @@ if __name__ == '__main__':
                              "InputType: 3, A comma-seperated list of Integers\n",
                         type=str)
     args = parser.parse_args()
-    print(args)
     start = MetProWorkflowApp(args.Mode, args.InputType, args.Input)
     start.start_workflow()
