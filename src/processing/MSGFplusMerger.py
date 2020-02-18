@@ -22,14 +22,19 @@ class MSGFplusMerger:
         self.syn=[]
         self.protein=[]
         self.mapper=[]
-        self.file_pattern_types = { "syn"     :   "{}msgfplus_syn.txt",
+        self.file_pattern_types = { "syn"     :   "{}syn.txt",
+                                    # "syn"     :   [ "{}msgfplus_syn.txt", "{}msgfdb_syn.txt"],
                                     "protein" :   "{}SeqToProteinMap.txt",
                                     "mapper"  :   "{}ResultToSeqMap.txt"}
 
     def group_files(self, folder):
+
+        # new_syn_type = self.file_pattern_types["syn"][0].format('*')
+        # old_syn_type = self.file_pattern_types["syn"][1].format('*')
+
         for cur_path, directories, files in os.walk(folder):
             for file in files:
-                if fnmatch.fnmatch(file, self.file_pattern_types["syn"].format('*')):
+                if fnmatch.fnmatch(file, self.file_pattern_types["syn"].format('*')):#new_syn_type) or fnmatch.fnmatch(file, old_syn_type ):
                     self.syn.append(os.path.join(cur_path, file))
                 elif fnmatch.fnmatch(file, self.file_pattern_types["protein"].format('*')):
                     self.protein.append(os.path.join(cur_path, file))
@@ -55,7 +60,16 @@ class MSGFplusMerger:
             os.makedirs(dataset_result_folder)
 
         if not os.path.exists(dataset_result_folder + file):
-             df.to_excel(dataset_result_folder + file)
+            try:
+                # to_excel() has Max sheet size is: 1048576, 16384 limit!
+                # if it crossed that limit, it fails with : ValueError: This sheet is too large!
+                df.to_excel(dataset_result_folder + file)
+            except Exception as e:
+                print(e)
+            try:
+                df.to_csv(dataset_result_folder + file, sep='\t')
+            except Exception as e:
+                print(e)
 
     @timeit
     def get_protein_info(self):

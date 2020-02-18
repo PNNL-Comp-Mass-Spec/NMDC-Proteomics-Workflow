@@ -176,7 +176,7 @@ This pipeline purpose if to automate the process of merging results from MSGF+ a
            | Job | Dataset | Experiment | OrganismDBName | ProteinCollectionList | ParameterFileName |
            |-----|---------|------------|----------------|-----------------------|-------------------|
         ```
-
+      
    ```
     ├── results                          
     │   ├── dpkgs/Dataset_ID/                  
@@ -210,9 +210,12 @@ This pipeline purpose if to automate the process of merging results from MSGF+ a
     │   └── set_of_Jobs/
    ``` 
    - `resultants_df.xlsx`
-   
+      
+       ```
+        | ResultID | Scan | FragMethod | SpecIndex | Charge | PrecursorMZ | DelM | DelM_PPM | MH | Peptide | Protein | NTT | DeNovoScore | MSGFScore | MSGFDB_SpecEValue | Rank_MSGFDB_SpecEValue | EValue | QValue | PepQValue | IsotopeError | JobNum | Dataset_x | Unique_Seq_ID | Cleavage_State | Terminus_State | Protein_Expectation_Value_Log(e) | Protein_Intensity_Log(I) | Dataset_y | ParentIonIndex | MZ | SurveyScanNumber | OptimalPeakApexScanNumber | PeakApexOverrideParentIonIndex | CustomSICPeak | PeakScanStart | PeakScanEnd | PeakScanMaxIntensity | PeakMaxIntensity | PeakSignalToNoiseRatio | FWHMInScans | PeakArea | ParentIonIntensity | PeakBaselineNoiseLevel | PeakBaselineNoiseStDev | PeakBaselinePointsUsed | StatMomentsArea | CenterOfMassScan | PeakStDev | PeakSkew | PeakKSStat | StatMomentsDataCountUsed |
+        |----------|------|------------|-----------|--------|-------------|------|----------|----|---------|---------|-----|-------------|-----------|-------------------|------------------------|--------|--------|-----------|--------------|--------|-----------|---------------|----------------|----------------|----------------------------------|--------------------------|-----------|----------------|----|------------------|---------------------------|--------------------------------|---------------|---------------|-------------|----------------------|------------------|------------------------|-------------|----------|--------------------|------------------------|------------------------|------------------------|-----------------|------------------|-----------|----------|------------|--------------------------|
+       ```
+
    - `*_crossTab.txt`
    
-   - genrated histogram
-   
-   - automated report of the analysis
+ 

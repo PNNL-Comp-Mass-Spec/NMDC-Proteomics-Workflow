@@ -14,7 +14,7 @@ class FileOperations:
         self.parent_folder = parent_folder
         self.url = None
         self.started_from=None
-        self.file_pattern_types = ["*msgfplus_syn.txt",
+        self.file_pattern_types = ["*syn.txt",
                                    "*SeqToProteinMap.txt",
                                    "*ResultToSeqMap.txt",
                                    "*_SICstats.txt"]
