@@ -8,11 +8,15 @@ class Input:
         self.datapackage_id = None
 
     def other_input(self, InputType, UserInput):
+        '''
+        changes input string to list of numbers.
+        '''
         if InputType ==1:
             self.datapackage_id = int(UserInput)
         if InputType ==2:
             ip = UserInput.split(',')
             for item in [_.strip() for _ in ip]:
+                # print(">>",item, ">>",type(item))
                 self.dataset_ids.append(int(item))
         if InputType ==3:
             ip = UserInput.split(',')

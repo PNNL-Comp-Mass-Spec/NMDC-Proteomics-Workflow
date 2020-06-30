@@ -31,7 +31,6 @@ class MSGFplusMerger:
 
         # new_syn_type = self.file_pattern_types["syn"][0].format('*')
         # old_syn_type = self.file_pattern_types["syn"][1].format('*')
-
         for cur_path, directories, files in os.walk(folder):
             for file in files:
                 if fnmatch.fnmatch(file, self.file_pattern_types["syn"].format('*')):#new_syn_type) or fnmatch.fnmatch(file, old_syn_type ):
@@ -60,16 +59,26 @@ class MSGFplusMerger:
             os.makedirs(dataset_result_folder)
 
         if not os.path.exists(dataset_result_folder + file):
+            # try:
+            #     # to_excel() has Max sheet size is: 1048576, 16384 limit!
+            #     # if it crossed that limit, it fails with : ValueError: This sheet is too large!
+            #     print('<<<>>>: Ran to_excel() , The file should have {} shape'.format(df.shape))
+            #     df.to_excel(dataset_result_folder + file)
+            # except Exception as e:
+            #     print(e)
             try:
-                # to_excel() has Max sheet size is: 1048576, 16384 limit!
-                # if it crossed that limit, it fails with : ValueError: This sheet is too large!
-                df.to_excel(dataset_result_folder + file)
+                # print('<<<>>>: to_excel() failed, ran to_csv(), The file should have {} shape'.format(df.shape))
+                df.to_csv( dataset_result_folder + file, sep='\t')
             except Exception as e:
                 print(e)
-            try:
-                df.to_csv(dataset_result_folder + file, sep='\t')
-            except Exception as e:
-                print(e)
+
+    def fill_holes(self):
+        # search for the
+        pass
+
+    def tackle_Unique_Seq_ID_holes_(self, df):
+        df.apply(lambda x: self.fill_holes(x), axis=1)
+
 
     @timeit
     def get_protein_info(self):
@@ -103,7 +112,11 @@ class MSGFplusMerger:
 
         # TODO: Change  self.consolidate_syn_DF --> self.recomupted_consolidate_syn
         merge1= pd.merge(self.consolidate_syn_DF, mapper_df,  how='left', left_on=['JobNum','ResultID'], right_on = ['JobNum','ResultID'])
-        self.MSGFjobs_Merged= pd.merge(merge1, protein_df,  how='left', left_on=['JobNum','Unique_Seq_ID','Protein'], right_on = ['JobNum','Unique_Seq_ID','Protein'])
+        df_with_holes = pd.merge(merge1, protein_df,  how='left', left_on=['JobNum','Unique_Seq_ID','Protein'], right_on = ['JobNum','Unique_Seq_ID','Protein'])
+
+        # FIXME: Bug found! No seq_Id found for result_id, replicate the seq_ID
+        # Group by identify the
+        self.tackle_Unique_Seq_ID_holes_(df_with_holes)
 
         self.write_to_disk(self.MSGFjobs_Merged , self.parent_folder, "MSGFjobs_Merged.xlsx" )
 
@@ -126,9 +139,12 @@ class MSGFplusMerger:
         syn_df = self.stack_files(self.syn, self.file_pattern_types["syn"])
         self.keep_best_scoring_peptide(syn_df)
 
+        self.improve_FDR(self.consolidate_syn_DF)
+
         self.get_protein_info()
         self.write_to_disk(syn_df , self.parent_folder, "syn_DF.xlsx" )
         self.write_to_disk(self.consolidate_syn_DF, self.parent_folder, "consolidate_syn_DF.xlsx")
+        self.write_to_disk(self.recomupted_consolidate_syn,self.parent_folder,"recomupted_consolidate_syn_DF.xlsx" )
 
     @timeit
     def keep_best_scoring_peptide(self, df):
@@ -155,13 +171,15 @@ class MSGFplusMerger:
         self.consolidate_syn_DF = df[df.groupby("Scan")["MSGFDB_SpecEValue"].transform('min') == df['MSGFDB_SpecEValue']]
         print(">>> consolidate_syn_DF shape{}".format(self.consolidate_syn_DF.shape))
 
-class Recompute_PepQValue:
-    '''Recompute QValue` and PepQValue
-    1. Use consolidate_syn_DF
-    2.
-    '''
-    # FIXME: Once Recomputing Algo. works remove
-    #  self.consolidate_syn_DF and
-    #  self.consolidate_syn_DF from class & make it local!<-- save m/m.!
+    def improve_FDR(self):
+        '''Recompute QValue` and PepQValue
+        1. Use consolidate_syn_DF
+        2.
+        '''
+        # FIXME: Once Recomputing Algo. works remove
+        #  self.consolidate_syn_DF and
+        #  self.consolidate_syn_DF from class & make it local!<-- save m/m.!
+
+
 
 

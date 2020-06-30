@@ -1,7 +1,6 @@
 from src.processing.MSGFplusMerger import MSGFplusMerger
 from utility.utils import timeit
 
-# global msgf
 import os
 import pandas as pd
 import fnmatch
@@ -16,7 +15,7 @@ class MASICmerger(MSGFplusMerger):
         self.masic=[]
 
     @timeit
-    def merge_msgfplus_msaic(self, MSGF_df):
+    def merge_msgfplus_msaic(self, MSGF_df ):
         '''
         1. Read in the MASIC job:
             "*_SICstats.txt" in masic_DF with added JobNum column
@@ -43,7 +42,7 @@ class MASICmerger(MSGFplusMerger):
         self.MSGFjobs_MASIC_resultant = pd.merge(MSGF_df, masic_DF, how='left', left_on=['Scan'], right_on=['Scan'])
         self.write_to_disk(self.MSGFjobs_MASIC_resultant , self.parent_folder, "MSGFjobs_MASIC_resultant.xlsx" )
 
-        print(masic_DF.shape, masic_DF.columns.values)
+        # print(masic_DF.shape, masic_DF.columns.values)
         # print('`' * 5)
         # print(self.MSGFjobs_MASIC_resultant.shape, self.MSGFjobs_MASIC_resultant.columns.values)
         # print('`' * 5)

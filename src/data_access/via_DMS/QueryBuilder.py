@@ -5,21 +5,40 @@ from src.data_access.via_DMS.Query import Query
 import pandas as pd
 import os
 import sys
+
 class QueryBuilder():
     ''' 1. Build MS-SQl Queries.
         2. Execute them
         3. create a dataFrame that holds all Information
             Dataset_ID  | MSGFPlusJob  | Data Folder Link  | NewestMasicJob  |	Results Folder Path |
     '''
-    def __init__(self, user_input= None):
+    def __init__(self, user_input= None, storage=None, project_name=None):
         self.db= DMSDatabase(Config)
         self.user_input = user_input
         self.analysis_jobs = None
         self.job_info= None
-        self.parent_data_folder = None
+        self.parent_data_folder = storage
+        self.project_name = project_name
         # TODO: NMDC: 18 Create a Summary_Stats.txt to distinguish between proteomics & Meta-proteomics study!
         self.Summary_Stats= None
-    def start_with_datapackage_id(self, id):
+
+    # def create_job_info_query(self):
+
+    def save_to_disk(self, data, data_path, msgf_job_list: list, id=None ):
+        if not os.path.exists(data_path):
+            os.makedirs(data_path)
+
+        data.to_excel(data_path+ "start_file.xlsx")
+
+        query = Query.JOB_INFO.format(','.join(str(job) for job in msgf_job_list))
+        result_set = self.db.run_query(query).fetchall()
+        df= pd.DataFrame(result_set)
+        self.job_info= df
+
+        df.to_excel(data_path+ "job_query_info.xlsx")
+        print('analysis_jobs obj size:', sys.getsizeof(self.analysis_jobs))
+
+    def start_with_datapackage_id(self, id: int):
         '''
         Given a ID
             Find out the Dataset_ID  , MSGFPlusJob
@@ -55,18 +74,16 @@ class QueryBuilder():
         #              1-Many(1dataset-->+MSGF-->1MASIC)
         first = df.merge(df_dataset_newest_MASIC, how='left', on= ['Dataset_ID', 'Dataset_ID'])
         second = first.merge(df_MASIC_loc, how="left", on= ['NewestMasicJob', 'NewestMasicJob'])
+
         self.analysis_jobs= second
-        print('analysis_jobs obj size:',sys.getsizeof(self.analysis_jobs))
+        self.parent_data_folder = self.parent_data_folder+ '/' +'data/dpkgs/{}/'.format(id)
+        self.save_to_disk(second,
+                          self.parent_data_folder,
+                          MSGFPlusJobs.to_list(),
+                          id
+                          )
 
-        #-- TODO: Remove it @Reviewer's Testing purpose
-        self.parent_data_folder= 'data/dpkgs/{}/'.format(id)
-        if not os.path.exists(self.parent_data_folder):
-            os.makedirs(self.parent_data_folder)
-        second.to_excel(self.parent_data_folder+"start_file_{}.xlsx".format(id, id))
-        #--
-        self.create_job_info_query(MSGFPlusJobs.to_list(), self.parent_data_folder)
-
-    def start_with_dataset_ids(self, id_list):
+    def start_with_dataset_ids(self, id_list: list):
         '''
         Given set of dataset-IDs
             findout MSGFPlusJob, "Results Folder Path"
@@ -95,17 +112,14 @@ class QueryBuilder():
         second = first.merge(df_MASIC_loc, how="left", on=['NewestMasicJob', 'NewestMasicJob'])
 
         self.analysis_jobs= second
-        print('analysis_jobs obj size:',sys.getsizeof(self.analysis_jobs))
+        self.parent_data_folder = self.parent_data_folder+ '/' + 'data/set_of_Dataset_IDs/{}/'.format(self.project_name)
 
-        #-- TODO: Remove it @Reviewer's Testing purpose
-        self.parent_data_folder= 'data/set_of_Dataset_IDs/'
-        if not os.path.exists(self.parent_data_folder):
-            os.makedirs(self.parent_data_folder)
-        second.to_excel(self.parent_data_folder+"start_file.xlsx")
-        #--
-        self.create_job_info_query(MSGFPlusJobs.to_list(), self.parent_data_folder)
+        self.save_to_disk(second,
+                          self.parent_data_folder,
+                          MSGFPlusJobs.to_list()
+                          )
 
-    def start_with_job_nums(self, id_list):
+    def start_with_job_nums(self, id_list: list):
         '''
         Given set of MSGFJobs
             Find the Dataset_ID, & "Results Folder Path"
@@ -133,39 +147,33 @@ class QueryBuilder():
         # concatenate
         first = msgf_loc_dataset.merge(df_dataset_newest_MASIC, how='left', on=['Dataset_ID', 'Dataset_ID'])
         second = first.merge(df_MASIC_loc, how="left", on= ['NewestMasicJob', 'NewestMasicJob'])
+
         self.analysis_jobs= second
-        print('analysis_jobs obj size:',sys.getsizeof(self.analysis_jobs))
-
-        #-- TODO: Remove it @Reviewer's Testing purpose
-        self.parent_data_folder= 'data/set_of_Jobs/'
-        if not os.path.exists(self.parent_data_folder):
-            os.makedirs(self.parent_data_folder)
-
-        second.to_excel(self.parent_data_folder+"start_file.xlsx")
-        #--
-        self.create_job_info_query(MSGFPlusJobs.to_list(), self.parent_data_folder)
+        self.parent_data_folder = self.parent_data_folder +'/' + 'data/set_of_Jobs/'
+        self.save_to_disk(second,
+                          self.parent_data_folder,
+                          MSGFPlusJobs.to_list()
+                          )
 
     def execute(self):
         '''Design queries here & set it'''
         try:
             # TODO: Remove query redundancy!
-            if self.user_input.datapackage_id:
+            dpkg_id= self.user_input.datapackage_id
+            if dpkg_id:
                 # find me all the jobs for each dataset in this datapackage!
-                self.start_with_datapackage_id(self.user_input.datapackage_id)
-            if self.user_input.dataset_ids:
+                self.start_with_datapackage_id(dpkg_id)
+            dataset_ids= self.user_input.dataset_ids
+            if dataset_ids:
                 # find me all the jobs for each dataset!
-                self.start_with_dataset_ids(self.user_input.dataset_ids)
-            if self.user_input.job_nums:
+                self.start_with_dataset_ids(dataset_ids)
+            msgf_jobs= self.user_input.job_nums
+            if msgf_jobs:
                 # find me all the datasets and their respective jobs!
-                self.start_with_job_nums(self.user_input.job_nums)
+                self.start_with_job_nums(msgf_jobs)
 
         except Exception as error:
             raise error
             # print("Query Builder Failed: User must provide correct input!")
 
-    def create_job_info_query(self, msgf_job_list, path_to_dir):
-        query = Query.JOB_INFO.format(','.join(str(job) for job in msgf_job_list))
-        result_set = self.db.run_query(query).fetchall()
-        df= pd.DataFrame(result_set)
-        self.job_info= df
-        df.to_excel("{}job_query_info.xlsx".format(path_to_dir))
+

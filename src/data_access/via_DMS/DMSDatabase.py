@@ -38,7 +38,7 @@ class DMSDatabase:
             cursor.execute(query) # generator object.
             return cursor
 
-        except pymssql.MySQLError as e:
+        except Exception as e:
             print(e)
         # FIXME: Close connection and test again!
         # finally:
