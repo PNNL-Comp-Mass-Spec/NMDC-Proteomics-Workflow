@@ -49,7 +49,6 @@ class FileOperations:
             return False
         return True
 
-
     def download_over_http(self):
         '''
         Given a url, copy files from DMS to disk!
@@ -57,15 +56,15 @@ class FileOperations:
         '''
         if self.check_url(self.url):
             response = requests.get(self.url)
-        soup = BeautifulSoup(response.text, 'html.parser')
-        filenames= [ link.get('href') for link in soup.find_all('a')]
-        for file in filenames:
-            for p in self.file_pattern_types:
-                if fnmatch.fnmatch(file, p):
-                    parsed_uri = urlparse(self.url)
-                    domain_name = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_uri)
-                    file_url = domain_name + file
-                    self.write_to_disk(file_url)
+            soup = BeautifulSoup(response.text, 'html.parser')
+            filenames= [ link.get('href') for link in soup.find_all('a')]
+            for file in filenames:
+                for p in self.file_pattern_types:
+                    if fnmatch.fnmatch(file, p):
+                        parsed_uri = urlparse(self.url)
+                        domain_name = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_uri)
+                        file_url = domain_name + file
+                        self.write_to_disk(file_url)
 
     def parse_fileserverpath_to_web_url(self, file_server_path):
         ''' Converts Windows FileSever path to webURL.
