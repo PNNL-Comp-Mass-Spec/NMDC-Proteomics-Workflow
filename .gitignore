@@ -40,3 +40,11 @@ results/
 .ipynb_checkpoints
 
 
+# pwiz installer
+pwiz-bin-windows-*.tar.bz2
+sqlite-netFx-full-source-*.zip
+
+# Editor backup files
+*~
+
+

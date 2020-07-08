@@ -45,7 +45,7 @@ class FileOperations:
         try:
             response.raise_for_status()
         except requests.exceptions.RequestException as e:
-            print("Error: " + str(e))
+            print("Error: " + str(e)+ ", if .fasta, searching on another location!")
             return False
         return True
 
@@ -76,7 +76,7 @@ class FileOperations:
 
     def download_msgf_jobs(self,df):
         self.create_dir(self.parent_folder + '/' + 'DMS_MSGFjobs' + '/' + str(df['MSGFPlusJob']) )
-        print("donwload_msgf", os.getcwd())
+        # print("donwload_msgf", os.getcwd())
         path_or_url = str(df['MSGFplus_loc'])
         if not path_or_url.startswith("http"):
             self.parse_fileserverpath_to_web_url(path_or_url)
@@ -88,7 +88,7 @@ class FileOperations:
 
     def download_masic_jobs(self,df):
         self.create_dir(self.parent_folder + '/' + 'DMS_MASICjob' + '/' + str(df['NewestMasicJob']) )
-        print("donwload_masic", os.getcwd())
+        # print("donwload_masic", os.getcwd())
         path_or_url = str(df['MASIC_loc'])
         if not path_or_url.startswith("http"):
             self.parse_fileserverpath_to_web_url(path_or_url)
@@ -99,19 +99,19 @@ class FileOperations:
 
     def download_raw_files(self ,df , path_or_url):
         os.chdir(self.parent_folder)
-        print("donwload_raw", os.getcwd())
-        print("!!!", path_or_url)
+        # print("donwload_raw", os.getcwd())
+        # print("!!!", path_or_url)
         if not path_or_url.startswith("http"): # works with datasets | jobs
             split_path = path_or_url.split("\\")
             path_or_url = '\\'.join(split_path[:-1])
             self.parse_fileserverpath_to_web_url(path_or_url)
             self.download_over_http()
         else:
-            print(">>", path_or_url)
+            # print(">>", path_or_url)
             split_path = path_or_url.split("/")
             path_or_url = '/'.join(split_path[:-2])
             self.url = path_or_url
-            print("<<", self.url)
+            # print("<<", self.url)
             self.download_over_http()
 
     def download_fasta_param_files(self):
@@ -124,11 +124,11 @@ class FileOperations:
         for file in fasta_file:
             url = "http://gigasax/DMS_Organism_Files/Microbial_Communities/FASTA/" + file
             if self.check_url(url):
-                print("MC downlaod", url)
+                # print("MC downlaod", url)
                 self.write_to_disk(url)
             url = "http://gigasax/DMS_FASTA_File_Archive/dynamic/forward/" + file
             if self.check_url(url):
-                print("Forward downlaod", url)
+                # print("Forward downlaod", url)
                 self.write_to_disk(url)
             else:
                 print("Can't find FASTA!")
@@ -160,7 +160,7 @@ class FileOperations:
         :return:
         '''
         os.chdir(self.started_from)
-        print("get_files()", os.getcwd())
+        # print("get_files()", os.getcwd())
         self.download_fasta_param_files()
         self.Input.apply( lambda x: self.use_df(x), axis=1)
 

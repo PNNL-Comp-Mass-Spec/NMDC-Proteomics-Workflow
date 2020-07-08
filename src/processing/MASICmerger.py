@@ -27,7 +27,7 @@ class MASICmerger(MSGFplusMerger):
                 Scan <-->FragScanNumber
         3. create MSGFjobs_MASIC_resultant  dataframe.
         '''
-        masic_folder = os.path.join(self.parent_folder, 'MASICjob')
+        masic_folder = os.path.join(self.parent_folder, 'DMS_MASICjob')
 
         for cur_path, directories, files in os.walk(masic_folder):
             for file in files:
@@ -40,7 +40,7 @@ class MASICmerger(MSGFplusMerger):
         masic_DF= masic_DF.rename(columns={'FragScanNumber': 'Scan'})
 
         self.MSGFjobs_MASIC_resultant = pd.merge(MSGF_df, masic_DF, how='left', left_on=['Scan'], right_on=['Scan'])
-        self.write_to_disk(self.MSGFjobs_MASIC_resultant , self.parent_folder, "MSGFjobs_MASIC_resultant.xlsx" )
+        self.write_to_disk(self.MSGFjobs_MASIC_resultant , self.parent_folder, "MSGFjobs_MASIC_resultant.tsv" )
 
         # print(masic_DF.shape, masic_DF.columns.values)
         # print('`' * 5)

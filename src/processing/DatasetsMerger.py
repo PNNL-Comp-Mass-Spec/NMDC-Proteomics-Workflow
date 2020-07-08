@@ -12,12 +12,13 @@ class DatasetsMerger(MSGFplusMerger):
                          a set of MSGFJobNums
       2. create a crossTab object
     '''
-    def __init__(self, folder= None):
+    def __init__(self, folder= None, combineDatasets=None):
         self.resultants = []
         self.parent_folder = folder
         self.resultants_df= None
         self.crossTab = None
-        self.dataset_result_folder = os.path.join('results', '/'.join(folder.split('/')[1:]) )
+        self.dataset_result_folder = folder.replace("data", "results")
+        self.combineDatasets= combineDatasets
 
     def merge_all_jobs_in_UserInput(self):
         '''
@@ -26,24 +27,29 @@ class DatasetsMerger(MSGFplusMerger):
         :return:
         '''
 
-        # stop =0
+        stop =0
         for dataset in next(os.walk(self.parent_folder))[1]:
-             # stop+=1
-             dataset_loc = self.parent_folder + dataset + '/'
-             msfg_obj= MSGFplusMerger(dataset_loc)
-             msfg_obj.consolidate_syn_files()
+            if dataset != "DMS_fasta_param":
 
-             masic = MASICmerger(dataset_loc)
-             masic.merge_msgfplus_msaic(msfg_obj.MSGFjobs_Merged)
+                 dataset_loc = self.parent_folder + dataset + '/'
+                 # print("dataset_loc >> ", dataset_loc)
+                 msfg_obj= MSGFplusMerger(dataset_loc)
+                 msfg_obj.consolidate_syn_files()
 
-             self.resultants.append(masic.MSGFjobs_MASIC_resultant)
-             # if stop==1:
-             #     break
-        # concatenate all datsets
+                 masic = MASICmerger(dataset_loc)
+                 masic.merge_msgfplus_msaic(msfg_obj.MSGFjobs_Merged)
+                 if self.combineDatasets:
+                    self.resultants.append(masic.MSGFjobs_MASIC_resultant)
+                 # if stop==1:
+                 #     break
 
-        self.resultants_df = pd.concat(self.resultants)
-        # self.create_crossTab()
-        self.write_to_disk(self.resultants_df, self.dataset_result_folder, "resultants_df.xlsx")
+        if self.combineDatasets:
+            # concatenate all datasets
+            # print("self.combineDatasets >>", self.combineDatasets)
+            self.resultants_df = pd.concat(self.resultants)
+            # print("self.dataset_result_folder >> ", self.dataset_result_folder)
+            self.write_to_disk(self.resultants_df, self.dataset_result_folder, "resultants_df.tsv")
+            return self.dataset_result_folder
 
     # def manual_merge_datasets(self):
     #

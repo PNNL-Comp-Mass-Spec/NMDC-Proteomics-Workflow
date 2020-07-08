@@ -36,7 +36,7 @@ class QueryBuilder():
         self.job_info= df
 
         df.to_excel(data_path+ "job_query_info.xlsx")
-        print('analysis_jobs obj size:', sys.getsizeof(self.analysis_jobs))
+        # print('analysis_jobs obj size:', sys.getsizeof(self.analysis_jobs))
 
     def start_with_datapackage_id(self, id: int):
         '''

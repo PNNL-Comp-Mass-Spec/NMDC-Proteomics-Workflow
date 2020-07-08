@@ -4,6 +4,7 @@ export DATABASE_USERNAME=dmsreader DATABASE_PASSWORD=dms4fun DATABASE_SERVER=gig
 
 #storage="/mnt/msshare/Anubhav/storage"
 storage="/Volumes/MSSHARE/Anubhav/storage"
+
 # Hess datasets (EMSL48099_JGI1393_Hess_DatasetToMetagenomeMapping.xlsx) @Samuel-purvine
 #projectName="Hess"
 #datasets="404590, 404522 ,404510 ,404577 ,404531 ,404518 ,404433 ,404445 ,404514 ,404535 ,404418 ,404422 ,404352 ,404365 ,404390 ,367262 ,367259 ,367505 ,367504 ,404637 ,404602 ,405162 ,404646 ,404769 ,404669 ,404757 ,405192 ,404616 ,404799 ,404816 ,404789 ,404779 ,404321 ,404359 ,404386 ,367506 ,367260 ,404241 ,404254 ,404305 ,404227 ,404248 ,404311 ,404232 ,404266 ,404276 ,404237 ,404259 ,404270 ,405262 ,405278 ,405200 ,405204 ,405274 ,405255 ,405266 ,405251 ,405259 ,405270 ,405196 ,405228 ,404347 ,404372 ,404379 ,405287 ,405299 ,405307 ,405330 ,405285 ,405342 ,405311 ,405313 ,405309 ,405346 ,405282 ,405315 ,367261 ,367258"
@@ -28,27 +29,28 @@ storage="/Volumes/MSSHARE/Anubhav/storage"
 #    3021 # @Matt
 #    3458 # @yuchian Mint-soil
 #    3524 # @paul
-dataPackageNum="3021"
+dataPackageNum="3524"
 python src/MetProWorkflowApp.py  \
       -M developer  \
       -It 1  \
       -S $storage \
-      -I $dataPackageNum
-
+      -I $dataPackageNum \
+      -C 1
 ## Based on job numbers | DMS
 #python src/MetProWorkflowApp.py  \
 #      -M developer  \
 #      -It 3  \
 #      -S $storage  \
-#      -I "$msgfJobs"
+#      -I "$msgfJobs" \
+#      -C 1
 
 # Based on dataset_ids | DMS or NMDC-FICUS
-python src/MetProWorkflowApp.py \
-      -M developer \
-      -It 2 \
-      -S $storage \
-      -P $projectName \
-      -I "$datasets"
+#python src/MetProWorkflowApp.py \
+#      -M developer \
+#      -It 2 \
+#      -S $storage \
+#      -P $projectName \
+#      -I "$datasets"
 
 #### Run Mepro : When data is provided by user directly!
 ## Front-end drops RAW, FASTA, PARAMETER files in the "Storage"
