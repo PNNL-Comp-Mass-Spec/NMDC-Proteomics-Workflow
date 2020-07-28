@@ -26,31 +26,35 @@ class DatasetsMerger(MSGFplusMerger):
         2. Merge all MSGFjobs_MASIC_resultant objects.
         :return:
         '''
+        if not os.path.exists(self.dataset_result_folder):
+            # stop =0
+            for dataset in next(os.walk(self.parent_folder))[1]:
+                if dataset != "DMS_fasta_param":
 
-        stop =0
-        for dataset in next(os.walk(self.parent_folder))[1]:
-            if dataset != "DMS_fasta_param":
+                     dataset_loc = self.parent_folder + dataset + '/'
+                     # print("dataset_loc >> ", dataset_loc)
+                     msfg_obj= MSGFplusMerger(dataset_loc)
+                     msfg_obj.consolidate_syn_files()
 
-                 dataset_loc = self.parent_folder + dataset + '/'
-                 # print("dataset_loc >> ", dataset_loc)
-                 msfg_obj= MSGFplusMerger(dataset_loc)
-                 msfg_obj.consolidate_syn_files()
+                     masic = MASICmerger(dataset_loc)
+                     masic.merge_msgfplus_msaic(msfg_obj.MSGFjobs_Merged)
+                     if self.combineDatasets:
+                        self.resultants.append(masic.MSGFjobs_MASIC_resultant)
+                     # if stop==1:
+                     #     break
 
-                 masic = MASICmerger(dataset_loc)
-                 masic.merge_msgfplus_msaic(msfg_obj.MSGFjobs_Merged)
-                 if self.combineDatasets:
-                    self.resultants.append(masic.MSGFjobs_MASIC_resultant)
-                 # if stop==1:
-                 #     break
+            print("`"*5)
+            print("Finished aggregating analysis tools results at loc:{}".format(self.dataset_result_folder))
+            print("`"*5)
+            if self.combineDatasets:
+                # concatenate all datasets
+                # print("self.combineDatasets >>", self.combineDatasets)
+                self.resultants_df = pd.concat(self.resultants)
+                # print("self.dataset_result_folder >> ", self.dataset_result_folder)
+                self.write_to_disk(self.resultants_df, self.dataset_result_folder, "resultants_df.tsv")
 
-        if self.combineDatasets:
-            # concatenate all datasets
-            # print("self.combineDatasets >>", self.combineDatasets)
-            self.resultants_df = pd.concat(self.resultants)
-            # print("self.dataset_result_folder >> ", self.dataset_result_folder)
-            self.write_to_disk(self.resultants_df, self.dataset_result_folder, "resultants_df.tsv")
-            return self.dataset_result_folder
-
+        print("Already ran Pipeline, Merged jobs exists at @:{}! please delete them & rerun the pipeline!".format(self.dataset_result_folder))
+        return self.dataset_result_folder
     # def manual_merge_datasets(self):
     #
     #     group_files=[]

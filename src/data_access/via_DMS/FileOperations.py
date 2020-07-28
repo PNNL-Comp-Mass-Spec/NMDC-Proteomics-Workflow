@@ -156,13 +156,18 @@ class FileOperations:
 
     @timeit
     def get_files(self):
-        '''Start's any anf File operation.
+        '''Start's any any File operation.
         :return:
         '''
-        os.chdir(self.started_from)
-        # print("get_files()", os.getcwd())
-        self.download_fasta_param_files()
-        self.Input.apply( lambda x: self.use_df(x), axis=1)
+        if not os.path.exists(self.started_from):
+            os.chdir(self.started_from)
+            # print("get_files()", os.getcwd())
+            self.download_fasta_param_files()
+            self.Input.apply( lambda x: self.use_df(x), axis=1)
+            print("`"*5)
+            print("Finished downloading data at loc:{}".format(self.started_from))
+            print("`"*5)
+        print("Data already exist at loc:{}".format(self.started_from))
 
 
     # def download_over_ftp(self):

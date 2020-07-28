@@ -1,3 +1,5 @@
+########## GIT AVOID TRACKING THESE FILES ##########
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -47,4 +49,17 @@ sqlite-netFx-full-source-*.zip
 # Editor backup files
 *~
 
+# sourcetrail generated files
+.nmdc_vis.srctrlbm
+.nmdc_vis.srctrldb
+.nmdc_vis.srctrlprj
+.nmdc.srctrlbm
+.nmdc.srctrldb
+.nmdc.srctrlprj
+.nmdc_review.srctrlbm
+.nmdc_review.srctrldb
+.nmdc_review.srctrlprj
 
+# Meta_data output file
+../workflow.json
+../output.json
