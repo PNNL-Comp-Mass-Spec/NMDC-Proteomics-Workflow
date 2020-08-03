@@ -115,8 +115,8 @@ COPY odbc.ini /etc/odbc.ini
 COPY odbcinst.ini /etc/odbcinst.ini
 
 # copy entire analysis into the image.
-#RUN wget -P /app/ https://stash.pnnl.gov/scm/omcs/nmdc-proteomics-workflow.git \
-COPY ./nmdc-proteomics-workflow /app/nmdc-proteomics-workflow
+RUN cd /app/ \
+    && git clone https://stash.pnnl.gov/scm/omcs/nmdc-proteomics-workflow.git
 
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 ENV PATH /opt/conda/bin:$PATH
