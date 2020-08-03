@@ -24,6 +24,10 @@ class Input:
                 self.job_nums.append(int(item))
 
     def user_input(self):
+        '''
+
+        :return:
+        '''
         #FIXME : Need to be added execution using data_package_id
         while True:
             print("To run the Meta-protemoics data-analysis workflow \n" \

@@ -9,6 +9,10 @@ class MASICmerger(MSGFplusMerger):
     '''Run for each dataset
     '''
     def __init__(self, folder):
+        '''
+
+        :param folder:
+        '''
         self.parent_folder = folder
         self.MSGFjobs_MASIC_resultant=None
         self.file_pattern_types = {"masic": "{}SICstats.txt"}

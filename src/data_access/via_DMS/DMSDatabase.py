@@ -6,6 +6,10 @@ import sys
 class DMSDatabase:
     ''' Database connection class'''
     def __init__(self, config):
+        '''
+
+        :param config:
+        '''
         self.SERVER = config.db_server
         self.USER = config.db_user
         self.PASSWORD = config.db_password

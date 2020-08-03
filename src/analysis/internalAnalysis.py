@@ -44,6 +44,10 @@ class downStreamAnalysis:
         return m.group('cleanseq')
 
     def process_data(self):
+        '''
+
+        :return:
+        '''
         # import table
         data = pd.read_table(self.parent_folder +'resultants_df.txt')[[
                            'JobNum', 'Dataset_x', 'Dataset_y', 'Scan', 'Protein', 'Peptide', \
@@ -120,6 +124,11 @@ class downStreamAnalysis:
 
 # optimize the filtering criteria and filter the data
 def parameter_optimization(dataset_ID):
+    '''
+
+    :param dataset_ID:
+    :return:
+    '''
     data_f = pd.read_csv("Results/Data/" + str(dataset_ID) + \
                          "_forward_peptide_identification.csv")
     data_r = pd.read_csv("Results/Data/" + str(dataset_ID) + \
@@ -131,6 +140,11 @@ def parameter_optimization(dataset_ID):
     ppm_shift = ax.get_lines()[0].get_xdata()[np.argmax(ax.get_lines()[0].get_ydata())]
 
     def PepFDR(Params):
+        '''
+
+        :param Params:
+        :return:
+        '''
         # function to minimize
         delppm1, delppm2, log10_specprob = Params  # use log10 value so that it is managable for the computer
         ### The FDR function ###

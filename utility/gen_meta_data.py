@@ -30,7 +30,11 @@ MAPPER_FN= "EMSL48473_JGI1781_Stegen_DatasetToMetagenomeMapping.xlsx"
 FASTA_LOC= "/Volumes/MSSHARE/Anubhav/fastas"
 
 class GenMetadata:
+    '''
+    Generate metadata for the pipeline!
+    '''
     def __init__(self):
+
         self.activity={}
         self.data_object={}
         self.uri = 'mongodb://localhost:27017/'
@@ -39,6 +43,11 @@ class GenMetadata:
         self.emsl_to_jgi={}
 
     def write_to_json_file(self, filenames):
+        '''
+
+        :param filenames:
+        :return:
+        '''
         with open(filenames[0], 'w') as fptr1 ,\
             open(filenames[1], 'w') as fptr2:
             fptr1.write('[\n')
@@ -60,8 +69,9 @@ class GenMetadata:
 
     def make_connection(self, db_name, coll_names):
         '''
-        - Make connection to mongodb database
-        - Make cursors available.
+        1. Make connection to mongodb database
+        2. Make cursors available.
+
         :param db_name: database name
         :param coll_names: list of collection names: _activity then _data_obj
         :return:
@@ -74,8 +84,9 @@ class GenMetadata:
     def get_md5(self, file):
         '''
         generates MD5 checksum of a file.
+
         :param file: filename with absolute path.
-        :return: chechsum or ""
+        :return: chechsum or empty string.
         '''
         if not file in (None, ""):
             md5 = hashlib.md5(open(file, 'rb').read()).hexdigest()
@@ -86,7 +97,8 @@ class GenMetadata:
     def grab_fasta_file(self, genome_directory):
         '''
         Search for desired fasta file
-        :param genome_directory: absolute path to fasta file.
+
+        :param genome_directory: NERSC fasta file folder name.
         :return: absolute path to a fasta.
         '''
         faa_file_loc = os.path.join(FASTA_LOC, STUDY, genome_directory, "annotation")
@@ -101,6 +113,7 @@ class GenMetadata:
     def gettime(self):
         '''
         Start and end time of running the pipeline.
+
         :return:
         '''
         return datetime.today().strftime('%Y-%m-%d')
@@ -108,6 +121,7 @@ class GenMetadata:
     def gen_id(self, dataset_id, genome_directory, nersc_seq_id ):
         '''
         - Generate unique ID foreach dataset in the _activity.json
+
         :param dataset_id: EMSL dataset ID
         :param genome_directory: JGI fasta location
         :param nersc_seq_id:
@@ -149,6 +163,7 @@ class GenMetadata:
         - Foreach dataset, a pointer:
             from : _MetaProteomicAnalysis_activity.json.has_output.[*_file_id]
             to   : _emsl_analysis_data_objects.json."id"
+
         :param dataset_id: EMSL datasetID
         :param genome_directory:
         :param nersc_seq_id:
@@ -198,6 +213,7 @@ class GenMetadata:
     def on_each_row(self, row):
         '''
         Runs foreach dataset and make entry in a collection.
+
         :param row: each row in the EMSL-JGI mapper file.
         :return:
         '''
@@ -220,6 +236,7 @@ class GenMetadata:
     def start(self):
         '''
         Beging parsing EMSL-JGI mapper file.
+
         :return:
         '''
         df_xlsx = pd.read_excel(ROOT_LOC + '/' + MAPPER_FN)

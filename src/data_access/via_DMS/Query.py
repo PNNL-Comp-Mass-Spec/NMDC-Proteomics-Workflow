@@ -1,6 +1,8 @@
 
 class Query:
-
+    '''
+    SQL queries to access data from DMS
+    '''
     #-------------------------------------------------------- Type A
     # Get the MSGF+ Jobs, plus Dataset_IDs
     # sometime MASIC Jobs aren't added in the datapackage by the user, so always safe to get MASIC information from DATASET_MASIC query!
@@ -47,13 +49,13 @@ class Query:
                                                Dataset_ID IN ({})
                                    GROUP BY dataset_id )"""
     # Could use this query to get the MSGF Jobs--> Using MSGF Jobs, find the "Data Folder link" {in view: V_Analysis_Job_Detail_Report_2 as above over JobNum!}
-    """ 
-    SELECT Dataset_ID, Max(Job) As MSGFPlusJob, 
-    FROM V_Analysis_Job_List_Report_2
-    WHERE Dataset_ID In ({})
-          And Tool Like 'msgf%'
-    Group by Dataset_ID  
-    """
+    # """
+    # SELECT Dataset_ID, Max(Job) As MSGFPlusJob,
+    # FROM V_Analysis_Job_List_Report_2
+    # WHERE Dataset_ID In ({})
+    #       And Tool Like 'msgf%'
+    # Group by Dataset_ID
+    # """
     #-------------------------------------------------------- Type C
     # Given a list of MSGFplus jobs, determine the dataset_IDs
     MSGF = """SELECT Dataset_ID, Job As MSGFPlusJob,[Results Folder Path] As MSGFplus_loc 

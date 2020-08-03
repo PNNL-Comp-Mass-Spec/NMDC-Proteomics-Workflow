@@ -31,13 +31,13 @@ storage="/Volumes/MSSHARE/Anubhav/storage"
 # based on datapackage IDs | DMS
 #    3021 : @Matt |  3458 : @yuchian Mint-soil | 3524 : @paul
 #dataPackageNum="3524"
-python src/MetProWorkflowApp.py  \
-    --Mode developer \
-    --InputType 1 \
-    --Storage $storage \
-    --Input $dataPackageNum \
-    --CombineDatasets 1 \
-    --SelectAnalysis "internal"
+#python src/MetProWorkflowApp.py  \
+#    --Mode developer \
+#    --InputType 1 \
+#    --Storage $storage \
+#    --Input $dataPackageNum \
+#    --CombineDatasets 1 \
+#    --SelectAnalysis "internal"
 
 ## Based on job numbers | DMS
 #python src/MetProWorkflowApp.py  \
@@ -55,5 +55,29 @@ python src/MetProWorkflowApp.py  \
 #    --Storage $storage \
 #    --ProjectName $projectName \
 #    --Input "$datasets" \
-#    --CombineDatasets 1 \
-#    --SelectAnalysis "internal"
+#    --CombineDatasets 0 \
+#    --SelectAnalysis "ficus"
+
+# Untying from DMS, Two ways [TODO: TIME-THEM ON SAME STUDY.]:
+#1. run the containers 1st to generate syn and SICstats for all datasets in a STUDY.
+#   then, run the merge process and report generation process seperately for all dataset.
+#   this is happening current with "dev-DMS-tied" version, since MetProWorkflowApp.py consume all dataset at once in iterate over them.
+
+
+#2. Invoke each container to do **end-to-end** :
+#  ## would run Foreach
+#  ## dataset[.raw+fasta] -> syn and SICstats -> resultant.tsv -> data_out.tsv and STATS
+
+# Based on dataset_ids NMDC-FICUS
+projectName="hess"
+dataset="404590"
+python src/MetProWorkflowApp.py \
+    --Mode developer \
+    --InputType 2 \
+    --Storage $storage \
+    --ProjectName $projectName \
+    --Input "$dataset" \
+    --CombineDatasets 0 \
+    --SelectAnalysis "ficus"
+
+

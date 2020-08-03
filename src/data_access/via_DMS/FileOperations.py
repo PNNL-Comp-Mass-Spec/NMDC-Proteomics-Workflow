@@ -10,6 +10,12 @@ class FileOperations:
     ''' Grab  locations of the MSGF+ & MASIC analysis tools using analysis_jobs object'''
     #TODO Move it under viaDMS directory
     def __init__(self, analysis_jobs= None, parent_folder= None, job_info=None):
+        '''
+
+        :param analysis_jobs:
+        :param parent_folder:
+        :param job_info:
+        '''
         self.Input = analysis_jobs
         self.parent_folder = parent_folder
         self.job_info= job_info
@@ -24,6 +30,11 @@ class FileOperations:
         self.row=None
 
     def create_dir(self,folder):
+        '''
+
+        :param folder:
+        :return:
+        '''
         if not os.path.exists(folder):
             os.makedirs(folder)
         os.chdir(folder)
@@ -41,6 +52,11 @@ class FileOperations:
                 logging.info("FAILED to download file!")
 
     def check_url(self, url):
+        '''
+
+        :param url:
+        :return:
+        '''
         response = requests.get(url)
         try:
             response.raise_for_status()
@@ -75,6 +91,11 @@ class FileOperations:
         self.url = 'http://' + folders[2] + '.pnl.gov/' + '/'.join(folders[3:])
 
     def download_msgf_jobs(self,df):
+        '''
+
+        :param df:
+        :return:
+        '''
         self.create_dir(self.parent_folder + '/' + 'DMS_MSGFjobs' + '/' + str(df['MSGFPlusJob']) )
         # print("donwload_msgf", os.getcwd())
         path_or_url = str(df['MSGFplus_loc'])
@@ -87,6 +108,11 @@ class FileOperations:
         return path_or_url
 
     def download_masic_jobs(self,df):
+        '''
+
+        :param df:
+        :return:
+        '''
         self.create_dir(self.parent_folder + '/' + 'DMS_MASICjob' + '/' + str(df['NewestMasicJob']) )
         # print("donwload_masic", os.getcwd())
         path_or_url = str(df['MASIC_loc'])
@@ -98,6 +124,8 @@ class FileOperations:
             self.download_over_http()
 
     def download_raw_files(self ,df , path_or_url):
+        '''
+        '''
         os.chdir(self.parent_folder)
         # print("donwload_raw", os.getcwd())
         # print("!!!", path_or_url)
@@ -115,6 +143,10 @@ class FileOperations:
             self.download_over_http()
 
     def download_fasta_param_files(self):
+        '''
+
+        :return:
+        '''
         self.create_dir(self.started_from + '/' + 'DMS_fasta_param' )
         fasta_file = list(set(self.job_info["OrganismDBName"]))
         param_file = list(set(self.job_info["ParameterFileName"]))

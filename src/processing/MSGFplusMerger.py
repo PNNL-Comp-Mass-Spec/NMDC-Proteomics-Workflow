@@ -5,16 +5,24 @@ import pandas as pd
 import fnmatch
 
 class MSGFplusMerger:
-    '''1. Runs for each dataset.
-       2. Collate "*msgfplus_syn.txt" &  --> consolidate_syn object
-       3. Recompute the QValue and PepQValue -->recomupted_consolidate_syn object
-       4. Look for protein information into
-            *msgfplus_syn_SeqToProteinMap.txt : protein Info.
-            *msgfplus_syn_ResultToSeqMap.txt  : Mapper
-          --> MSGFjobs_Merged object
+    '''
+    Merge all MSFGjobs per dataset.
+
+    1. Runs for each dataset.
+    2. Collate "*msgfplus_syn.txt" &  --> consolidate_syn object
+    3. Recompute the QValue and PepQValue -->recomupted_consolidate_syn object
+    4. Look for protein information into
+
+        *msgfplus_syn_SeqToProteinMap.txt : protein Info.
+        *msgfplus_syn_ResultToSeqMap.txt  : Mapper
+        --> MSGFjobs_Merged object
+
     '''
     def __init__(self, dataset_loc=None):
+        '''
 
+        :param dataset_loc:
+        '''
         self.parent_folder = dataset_loc
         self.consolidate_syn_DF= None
         self.recomupted_consolidate_syn = None
@@ -27,6 +35,13 @@ class MSGFplusMerger:
                                     "mapper"  :   "{}ResultToSeqMap.txt"}
 
     def write_to_disk(self, df, folder, file):
+        '''
+
+        :param df:
+        :param folder:
+        :param file:
+        :return:
+        '''
         # write to results:
         # print("Folder >>", folder)
         dataset_result_folder =  folder.replace("data", "results")
@@ -49,10 +64,18 @@ class MSGFplusMerger:
                 print("Error : " + e)
 
     def fill_holes(self):
-        # search for the
+        '''
+
+        :return:
+        '''
         pass
 
     def tackle_Unique_Seq_ID_holes_(self, df):
+        '''
+
+        :param df:
+        :return:
+        '''
         df.apply(lambda x: self.fill_holes(x), axis=1)
 
 
@@ -64,7 +87,7 @@ class MSGFplusMerger:
             "*SeqToProteinMap.txt" in SeqToProteinMap_DF with added JobNum column
         2. Inner-join:
                 consolidate_syn   and
-                ResultToSeqMap_DF and \
+                ResultToSeqMap_DF and
                 SeqToProteinMap_DF
             over
              1. JobNum   <--> JobNum
@@ -73,6 +96,7 @@ class MSGFplusMerger:
                 Unique_Seq_ID   <--> Unique_Seq_ID
                 Protein         <--> Protein_Name
         3. create MSGFjobs_Merged dataframe.
+
         :return:
         '''
         #FIXME: Confirm with @matt: Could ResultID col in _syn file be duplicate?
@@ -103,9 +127,10 @@ class MSGFplusMerger:
         # print(mapper_df.shape, mapper_df.columns.values)
 
     def improve_FDR(self):
-        '''Recompute QValue` and PepQValue
+        '''
+        Recompute QValue` and PepQValue
         1. Use consolidate_syn_DF
-        2.
+
         '''
         # FIXME: Once Recomputing Algo. works remove
         #  self.consolidate_syn_DF and
@@ -113,7 +138,8 @@ class MSGFplusMerger:
 
     @timeit
     def keep_best_scoring_peptide(self, df):
-        '''keeping the best scoring pepetide
+        '''
+        keeping the best scoring pepetide
         1. Using _syn_DF
         2. group by Scan
         3. For each unique Scan,
@@ -122,6 +148,7 @@ class MSGFplusMerger:
         Note: consolidate_syn_DF
               have unique row for each ResultID, but
               has duplicate Scan due to multiple min MSGFDB_SpecEValue!
+
         :return:
         '''
         # Slow
@@ -137,6 +164,12 @@ class MSGFplusMerger:
         print(">>> consolidate_syn_DF shape{}".format(self.consolidate_syn_DF.shape))
 
     def stack_files(self, grouped_files, file_pattern):
+        '''
+
+        :param grouped_files:
+        :param file_pattern:
+        :return:
+        '''
         stacked_frames=[]
         # print(grouped_files)
         for fp in grouped_files:
@@ -152,6 +185,11 @@ class MSGFplusMerger:
         return df
 
     def group_files(self, folder):
+        '''
+
+        :param folder:
+        :return:
+        '''
 
         # new_syn_type = self.file_pattern_types["syn"][0].format('*')
         # old_syn_type = self.file_pattern_types["syn"][1].format('*')
@@ -168,8 +206,10 @@ class MSGFplusMerger:
     def consolidate_syn_files(self):
         '''
         1. For all jobs Read in(Stack):
-            "*msgfplus_syn.txt" in _syn_DF with added JobNum & dataset column
-        Note: _syn_DF have duplicate rows for each Scan with MSGFDB_SpecEValue
+           "*msgfplus_syn.txt" in _syn_DF with added JobNum & dataset column
+
+        Note: _syn_DF have duplicate rows for each Scan with MSGFDB_SpecEValue.
+
         :return:
         '''
         msgf_folder = os.path.join(self.parent_folder, 'DMS_MSGFjobs')

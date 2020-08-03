@@ -11,8 +11,15 @@ class QueryBuilder():
         2. Execute them
         3. create a dataFrame that holds all Information
             Dataset_ID  | MSGFPlusJob  | Data Folder Link  | NewestMasicJob  |	Results Folder Path |
+
     '''
     def __init__(self, user_input= None, storage=None, project_name=None):
+        '''
+
+        :param user_input:
+        :param storage:
+        :param project_name:
+        '''
         self.db= DMSDatabase(Config)
         self.user_input = user_input
         self.analysis_jobs = None
@@ -22,9 +29,15 @@ class QueryBuilder():
         # TODO: NMDC: 18 Create a Summary_Stats.txt to distinguish between proteomics & Meta-proteomics study!
         self.Summary_Stats= None
 
-    # def create_job_info_query(self):
+    def save_to_disk(self, data, data_path, msgf_job_list, id ):
+        '''
 
-    def save_to_disk(self, data, data_path, msgf_job_list: list, id=None ):
+        :param data:
+        :param data_path:
+        :param msgf_job_list:
+        :param id:
+        :return:
+        '''
         if not os.path.exists(data_path):
             os.makedirs(data_path)
 
@@ -37,15 +50,17 @@ class QueryBuilder():
 
         df.to_excel(data_path+ "job_query_info.xlsx")
         # print('analysis_jobs obj size:', sys.getsizeof(self.analysis_jobs))
+        pass
 
-    def start_with_datapackage_id(self, id: int):
+    def start_with_datapackage_id(self, id):
         '''
         Given a ID
-            Find out the Dataset_ID  , MSGFPlusJob
-                Using MSGFPlusJob, findout  "Data Folder Link"
-                Using Dataset_ID,  findout  NewestMasicJob
-                    Using NewestMasicJob findout "Results Folder Path"
+        ----Find out the Dataset_ID  , MSGFPlusJob
+        --------Using MSGFPlusJob, findout  "Data Folder Link"
+        --------Using Dataset_ID,  findout  NewestMasicJob
+        ------------Using NewestMasicJob findout "Results Folder Path"
         Merge results to create "analysis_jobs".
+
         :param id: datapackage_id
         :return:
         '''
@@ -82,14 +97,16 @@ class QueryBuilder():
                           MSGFPlusJobs.to_list(),
                           id
                           )
+        pass
 
-    def start_with_dataset_ids(self, id_list: list):
+    def start_with_dataset_ids(self, id_list):
         '''
         Given set of dataset-IDs
-            findout MSGFPlusJob, "Results Folder Path"
-                Using Dataset_ID,  findout  NewestMasicJob
-                    Using NewestMasicJob findout "Results Folder Path"
+        ----findout MSGFPlusJob, "Results Folder Path"
+        --------Using Dataset_ID,  findout  NewestMasicJob
+        ------------Using NewestMasicJob findout "Results Folder Path"
         Merge results to create "analysis_jobs".
+
         :param id_list: set of dataset-IDs
         :return:
         '''
@@ -118,14 +135,15 @@ class QueryBuilder():
                           self.parent_data_folder,
                           MSGFPlusJobs.to_list()
                           )
-
-    def start_with_job_nums(self, id_list: list):
+        pass
+    def start_with_job_nums(self, id_list):
         '''
         Given set of MSGFJobs
-            Find the Dataset_ID, & "Results Folder Path"
-                Using Dataset_ID, findout MASIC
-                    Using MASIC, findout "Results Folder Path"
+        ----Find the Dataset_ID, & "Results Folder Path"
+        --------Using Dataset_ID, findout MASIC
+        ------------Using MASIC, findout "Results Folder Path"
         Merge results to create "analysis_jobs".
+
         :param id_list:  set of JobNums
         :return:
         '''
@@ -154,7 +172,7 @@ class QueryBuilder():
                           self.parent_data_folder,
                           MSGFPlusJobs.to_list()
                           )
-
+        pass
     def execute(self):
         '''Design queries here & set it'''
         try:
@@ -176,4 +194,4 @@ class QueryBuilder():
             raise error
             # print("Query Builder Failed: User must provide correct input!")
 
-
+        pass

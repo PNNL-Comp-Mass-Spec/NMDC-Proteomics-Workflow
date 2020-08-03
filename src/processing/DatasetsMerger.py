@@ -11,8 +11,14 @@ class DatasetsMerger(MSGFplusMerger):
                          a set of datasets or
                          a set of MSGFJobNums
       2. create a crossTab object
+
     '''
     def __init__(self, folder= None, combineDatasets=None):
+        '''
+
+        :param folder:
+        :param combineDatasets:
+        '''
         self.resultants = []
         self.parent_folder = folder
         self.resultants_df= None
@@ -24,6 +30,7 @@ class DatasetsMerger(MSGFplusMerger):
         '''
         1. Run for each dataset.
         2. Merge all MSGFjobs_MASIC_resultant objects.
+
         :return:
         '''
         if not os.path.exists(self.dataset_result_folder):
