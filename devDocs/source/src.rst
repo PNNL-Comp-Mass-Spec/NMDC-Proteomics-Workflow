@@ -12,7 +12,7 @@ Module : MetProWorkflowApp
 --------------------------
 
 .. argparse::
-   :filename: .../src/MetProWorkflowApp.py
+   :filename: ../../src/MetProWorkflowApp.py
    :func: return_argparser
    :prog: MetProWorkflowApp.py
 
